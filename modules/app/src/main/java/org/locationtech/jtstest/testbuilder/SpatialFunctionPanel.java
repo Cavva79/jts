@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -63,15 +63,15 @@ extends JPanel implements FunctionPanel
   
   private static String[] capStyleItems = new String[] { "Round", "Flat", "Square" };
   private static Object[] capStyleValues = new Object[] { 
-  		new Integer(BufferParameters.CAP_ROUND),
-  		new Integer(BufferParameters.CAP_FLAT),
-  		new Integer(BufferParameters.CAP_SQUARE)
+  		BufferParameters.CAP_ROUND,
+  		BufferParameters.CAP_FLAT,
+  		BufferParameters.CAP_SQUARE
   		};
   private static String[] joinStyleItems = new String[] { "Round", "Mitre", "Bevel" };
   private static Object[] joinStyleValues = new Object[] { 
-  		new Integer(BufferParameters.JOIN_ROUND),
-  		new Integer(BufferParameters.JOIN_MITRE),
-  		new Integer(BufferParameters.JOIN_BEVEL)
+  		BufferParameters.JOIN_ROUND,
+  		BufferParameters.JOIN_MITRE,
+  		BufferParameters.JOIN_BEVEL
   };
 
 	
@@ -103,7 +103,8 @@ extends JPanel implements FunctionPanel
   private transient Vector spatialFunctionPanelListeners;
   private JPanel panelControl = new JPanel();
   private JCheckBox displayAAndBCheckBox = new JCheckBox();
-  private JCheckBox cbExecEach = new JCheckBox();
+  private JCheckBox cbExecEachA = new JCheckBox();
+  private JCheckBox cbExecEachB = new JCheckBox();
   private JCheckBox cbExecRepeat = new JCheckBox();
   private final JTextField txtRepeatCount = new JTextField();
   private JButton btnClearResult = new JButton();
@@ -131,19 +132,19 @@ extends JPanel implements FunctionPanel
   
   public SpatialFunctionPanel() {
     try {
-      jbInit();
+      uiInit();
     }
     catch (Exception ex) {
       ex.printStackTrace();
     }
   }
   
-  void jbInit() throws Exception {
+  void uiInit() throws Exception {
+    this.setLayout(borderLayout1);
+    
 //    geomFuncPanel.populate(JTSTestBuilder.getFunctionRegistry().getGeometryFunctions());
     geomFuncPanel.populate(JTSTestBuilder.getFunctionRegistry().getCategorizedGeometryFunctions());
 
-  	
-    this.setLayout(borderLayout1);
     panelParam.setLayout(gridLayout2);
     gridLayout2.setRows(6);
     gridLayout2.setColumns(2);
@@ -223,8 +224,11 @@ extends JPanel implements FunctionPanel
     //panelControl.add(btnClearResult, null);
     
 
-    cbExecEach.setToolTipText("Compute for each geometry element");
-    cbExecEach.setText("Each");
+    cbExecEachA.setToolTipText("Compute for each A geometry element");
+    cbExecEachA.setText("Each A");
+    
+    cbExecEachB.setToolTipText("Compute for each B geometry element");
+    cbExecEachB.setText("Each B");
     
     cbExecRepeat.setToolTipText("Repeat function a number of times, incrementing the first parameter");
     cbExecRepeat.setText("Repeat");
@@ -273,7 +277,8 @@ extends JPanel implements FunctionPanel
     panelExecHolder.add(panelExec, BorderLayout.CENTER);
     panelExecHolder.add(btnShowExecExt, BorderLayout.EAST);
 
-    panelExecMeta.add(cbExecEach);
+    panelExecMeta.add(cbExecEachA);
+    panelExecMeta.add(cbExecEachB);
     panelExecMeta.add(cbExecRepeat);
     panelExecMeta.add(txtRepeatCount);
     panelExecMeta.setVisible(false);
@@ -338,7 +343,7 @@ extends JPanel implements FunctionPanel
       funToRun = new RepeaterGeometryFunction(funToRun, count);
     }
     if (isFunctionEach()) {
-      funToRun = new SpreaderGeometryFunction(funToRun);
+      funToRun = new SpreaderGeometryFunction(funToRun, isEachA(), isEachB());
     }
     return funToRun;
   }
@@ -352,11 +357,18 @@ extends JPanel implements FunctionPanel
     return cbExecRepeat.isSelected();
   }
   private boolean isFunctionEach() {
-    return cbExecEach.isSelected();
+    return cbExecEachA.isSelected() || cbExecEachB.isSelected();
+  }
+  private boolean isEachA() {
+    return cbExecEachA.isSelected();
+  }
+  private boolean isEachB() {
+    return cbExecEachB.isSelected();
   }
   void clearExtended() {
     cbExecRepeat.setSelected(false);
-    cbExecEach.setSelected(false);
+    cbExecEachA.setSelected(false);
+    cbExecEachB.setSelected(false);
   }
   
   void displayAAndBCheckBox_actionPerformed(ActionEvent e) {

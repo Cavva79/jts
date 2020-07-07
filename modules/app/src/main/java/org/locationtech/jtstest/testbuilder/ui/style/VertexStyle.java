@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -23,7 +23,8 @@ import org.locationtech.jtstest.testbuilder.ui.Viewport;
 
 public class VertexStyle  implements Style
 {
-  private double sizeOver2 = AppConstants.VERTEX_SIZE / 2d;
+  private int size = AppConstants.VERTEX_SIZE;
+  private double sizeOver2 =  size / 2d;
   
   protected Rectangle shape;
   private Color color;
@@ -35,12 +36,27 @@ public class VertexStyle  implements Style
   public VertexStyle(Color color) {
     this.color = color;
     // create basic rectangle shape
-    shape = new Rectangle(0,
-        0, 
-        AppConstants.VERTEX_SIZE, 
-        AppConstants.VERTEX_SIZE);
+    init();
   }
 
+  public Color getColor() {
+    return color;
+  }
+  public void setColor(Color color) {
+    this.color = color;
+  }
+  public int getSize() {
+    return size;
+  }
+  
+  public void setSize(int size) {
+    this.size = size;
+    init();
+  }
+  private void init() {
+    sizeOver2 = size / 2d;
+    shape = new Rectangle(0, 0, size, size);
+  }
 
   public void paint(Geometry geom, Viewport viewport, Graphics2D g)
   {

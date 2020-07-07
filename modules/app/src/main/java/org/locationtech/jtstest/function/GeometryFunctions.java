@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -46,7 +46,7 @@ public class GeometryFunctions
   public static Geometry reverse(Geometry g) {      return g.reverse();  }
   public static Geometry normalize(Geometry g) 
   {      
-  	Geometry gNorm = (Geometry) g.clone();
+  	Geometry gNorm = g.copy();
   	gNorm.normalize();
     return gNorm;
   }
@@ -100,17 +100,9 @@ public class GeometryFunctions
 		return null;
 	}
 
-	public static Geometry convertToPolygon(Geometry g)
-	{
-		if (g instanceof Polygonal) return g;
-		// TODO: ensure ring is valid
-		LinearRing ring = g.getFactory().createLinearRing(g.getCoordinates());
-		return g.getFactory().createPolygon(ring, null);
-	}
-
 	public static Geometry getCoordinates(Geometry g)
 	{
 		Coordinate[] pts = g.getCoordinates();
-		return g.getFactory().createMultiPoint(pts);
+		return g.getFactory().createMultiPointFromCoords(pts);
 	}
 }

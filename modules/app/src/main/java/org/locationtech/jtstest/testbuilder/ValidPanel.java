@@ -3,9 +3,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -91,7 +91,7 @@ public class ValidPanel extends JPanel {
     });
     this.setLayout(gridLayout1);
     gridLayout1.setRows(2);
-    txtIsValid.setBackground(SystemColor.control);
+    txtIsValid.setBackground(AppColors.BACKGROUND);
     txtIsValid.setEditable(false);
     txtIsValid.setText("Y");
     txtIsValid.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,7 +100,7 @@ public class ValidPanel extends JPanel {
     taInvalidMsg.setBorder(BorderFactory.createLoweredBevelBorder());
     taInvalidMsg.setMinimumSize(new Dimension(70, 70));
     taInvalidMsg.setToolTipText("");
-    taInvalidMsg.setBackground(SystemColor.control);
+    taInvalidMsg.setBackground(AppColors.BACKGROUND);
     taInvalidMsg.setEditable(true);
     taInvalidMsg.setFont(new java.awt.Font("SansSerif", 0, 12));
     lblValidSimple.setToolTipText("");
@@ -250,7 +250,10 @@ public class ValidPanel extends JPanel {
 
   Coordinate parseXY(String xyStr)
   {
-    String[] xy = xyStr.trim().split("\\s+");
+    // remove commas and underscores in case they are present
+    String cleanStr = xyStr.replace("_", "");
+    cleanStr = cleanStr.replace(",", " ");
+    String[] xy = cleanStr.trim().split("\\s+");
     double x = parseNumber(xy, 0);
     double y = parseNumber(xy, 1);
     return new Coordinate(x, y);

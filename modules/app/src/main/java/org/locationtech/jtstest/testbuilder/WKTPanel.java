@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -40,6 +40,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jtstest.testbuilder.io.IOUtil;
 import org.locationtech.jtstest.testbuilder.model.DisplayParameters;
 import org.locationtech.jtstest.testbuilder.model.GeometryEditModel;
 import org.locationtech.jtstest.testbuilder.model.GeometryType;
@@ -95,19 +96,12 @@ public class WKTPanel extends JPanel
     JTextArea bTextArea = new JTextArea();
     ButtonGroup editMode = new ButtonGroup();
 
-    private final ImageIcon copyIcon = new ImageIcon(this.getClass().getResource("Copy.png"));
-    private final ImageIcon pasteIcon = new ImageIcon(this.getClass().getResource("Paste.png"));
-    private final ImageIcon cutIcon = new ImageIcon(this.getClass().getResource("Delete_small.png"));
-    private final ImageIcon loadIcon = new ImageIcon(this.getClass().getResource("LoadWKTToTest.png"));
-    private final ImageIcon inspectIcon = new ImageIcon(this.getClass().getResource("InspectGeometry.png"));
-    private final ImageIcon exchangeGeomsIcon = new ImageIcon(this.getClass().getResource("ExchangeGeoms.png"));
-
     protected JTSTestBuilderFrame tbFrame;
 
     public WKTPanel(JTSTestBuilderFrame tbFrame) {
       this.tbFrame = tbFrame;
         try {
-            jbInit();
+            uiInit();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -120,27 +114,25 @@ public class WKTPanel extends JPanel
         setFocusGeometry(0);
   }
 
-    void jbInit() throws Exception {
+    void uiInit() throws Exception {
         titledBorder1 = new TitledBorder("");
-        this.setLayout(gridBagLayout1);
-        this.setPreferredSize(new java.awt.Dimension(394, 176));
         
         loadButton.setMaximumSize(new Dimension(38, 38));
         loadButton.setPreferredSize(new Dimension(38, 38));
         loadButton.setMargin(new Insets(8, 8, 8, 8));
 //        loadButton.setText("Load");
-        loadButton.setIcon(loadIcon);
+        loadButton.setIcon(AppIcons.GEOM_LOAD);
         loadButton.setToolTipText(AppStrings.TIP_WKT_PANEL_LOAD_GEOMETRY);
         
         inspectButton.setMaximumSize(new Dimension(38, 30));
         inspectButton.setPreferredSize(new Dimension(24, 38));
         inspectButton.setToolTipText(AppStrings.TIP_INSPECT_GEOMETRY);
-        inspectButton.setIcon(inspectIcon);
+        inspectButton.setIcon(AppIcons.GEOM_INSPECT);
         
         exchangeButton.setMaximumSize(new Dimension(38, 30));
         exchangeButton.setPreferredSize(new Dimension(24, 38));
         exchangeButton.setToolTipText(AppStrings.TIP_EXCHANGE_A_B);
-        exchangeButton.setIcon(exchangeGeomsIcon);
+        exchangeButton.setIcon(AppIcons.GEOM_EXCHANGE);
         
         JButton btnUndo = SwingUtil.createButton(AppIcons.UNDO, "Undo", new ActionListener() {
           public void actionPerformed(ActionEvent e) {
@@ -149,6 +141,7 @@ public class WKTPanel extends JPanel
         });
         btnUndo.setMaximumSize(new Dimension(38, 30));
         Box panelButtons = Box.createVerticalBox();
+        panelButtons.setPreferredSize(new java.awt.Dimension(30, 30));
         panelButtons.add(loadButton);
         panelButtons.add(Box.createVerticalStrut(20));
         panelButtons.add(exchangeButton);
@@ -156,8 +149,6 @@ public class WKTPanel extends JPanel
         panelButtons.add(btnUndo);
         
 
-
-        
         panelAB.setLayout(gridBagLayout2);
         
         aLabel.setFont(new java.awt.Font("Dialog", 1, 16));
@@ -198,15 +189,15 @@ public class WKTPanel extends JPanel
         });
         
         aCopyButton.setToolTipText(AppStrings.TIP_COPY_DATA);
-        aCopyButton.setIcon(copyIcon);
+        aCopyButton.setIcon(AppIcons.COPY);
         aCopyButton.setMargin(new Insets(0, 0, 0, 0));
 
         aPasteButton.setToolTipText(AppStrings.TIP_PASTE_DATA);
-        aPasteButton.setIcon(pasteIcon);
+        aPasteButton.setIcon(AppIcons.PASTE);
         aPasteButton.setMargin(new Insets(0, 0, 0, 0));
 
         aCutButton.setToolTipText("Clear");
-        aCutButton.setIcon(cutIcon);
+        aCutButton.setIcon(AppIcons.CUT);
         aCutButton.setMargin(new Insets(0, 0, 0, 0));
 
         aButtonPanelLayout.setVgap(1);
@@ -234,15 +225,15 @@ public class WKTPanel extends JPanel
         //aPanel.add(aButtonPanel, BorderLayout.EAST);
         
         bCopyButton.setToolTipText(AppStrings.TIP_COPY_DATA);
-        bCopyButton.setIcon(copyIcon);
+        bCopyButton.setIcon(AppIcons.COPY);
         bCopyButton.setMargin(new Insets(0, 0, 0, 0));
 
         bPasteButton.setToolTipText(AppStrings.TIP_PASTE_DATA);
-        bPasteButton.setIcon(pasteIcon);
+        bPasteButton.setIcon(AppIcons.PASTE);
         bPasteButton.setMargin(new Insets(0, 0, 0, 0));
 
         bCutButton.setToolTipText("Clear");
-        bCutButton.setIcon(cutIcon);
+        bCutButton.setIcon(AppIcons.CUT);
         bCutButton.setMargin(new Insets(0, 0, 0, 0));
 
         bButtonPanelLayout.setVgap(1);
@@ -268,14 +259,6 @@ public class WKTPanel extends JPanel
         bPanel.add(bScrollPane, BorderLayout.CENTER);
         //bPanel.add(bButtonPanel, BorderLayout.EAST);
         
-        this.add(
-            panelAB,
-            new GridBagConstraints(0, 1, 1, 2,
-                1.0, 1.0,
-                GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0),
-                0, 0));
         panelAB.add(
         		aPanel,
             new GridBagConstraints(1, 0, 1, 1,
@@ -295,6 +278,17 @@ public class WKTPanel extends JPanel
         bScrollPane.getViewport().add(bTextArea, null);
         aScrollPane.getViewport().add(aTextArea, null);
         
+        /*
+        this.setLayout(gridBagLayout1);
+        this.setPreferredSize(new java.awt.Dimension(394, 176));
+        this.add(
+            panelAB,
+            new GridBagConstraints(0, 1, 1, 2,
+                1.0, 1.0,
+                GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0),
+                0, 0));
         this.add(
             panelButtons,
             new GridBagConstraints( 1, 1, 1, 1,
@@ -303,6 +297,11 @@ public class WKTPanel extends JPanel
                 GridBagConstraints.NONE,
                 new Insets(2, 2, 0, 2),
                 0, 0));
+        */
+        
+        this.setLayout(new BorderLayout());
+        this.add(panelAB, BorderLayout.CENTER);
+        this.add(panelButtons, BorderLayout.EAST);
         
         loadButton.addActionListener(
             new ActionListener() {
@@ -437,10 +436,16 @@ public class WKTPanel extends JPanel
     
     void copy(ActionEvent e, int geomIndex)
     {
-      boolean isFormatted = 0 != (e.getModifiers() & ActionEvent.CTRL_MASK);
       Geometry g = tbModel.getCurrentCase().getGeometry(geomIndex);
-      if (g != null)
-        SwingUtil.copyToClipboard(g, isFormatted);
+      if (g == null) return;
+      
+      if (SwingUtil.isShiftKeyPressed(e)) {
+        String wkb = IOUtil.toWKBHex(g);
+        SwingUtil.copyToClipboard(wkb, false);
+        return;
+      }
+      boolean isFormatted = SwingUtil.isCtlKeyPressed(e);
+      SwingUtil.copyToClipboard(g, isFormatted);
     }
     
     void aPasteButton_actionPerformed(ActionEvent e)
@@ -492,7 +497,7 @@ public class WKTPanel extends JPanel
     Border otherBorder = BorderFactory.createMatteBorder(0, 2, 0, 0, Color.white);
     
     private static Color focusBackgroundColor = Color.white; //new Color(240,255,250);
-    private static Color otherBackgroundColor = SystemColor.control;
+    private static Color otherBackgroundColor = AppColors.BACKGROUND;
     
     private void setFocusGeometry(int index) {
       JTSTestBuilder.controller().setFocusGeometry(index);

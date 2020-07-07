@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -18,12 +18,12 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Locale;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.CoordinateSequenceFactory;
 
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -36,7 +36,6 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
-import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;
 import org.locationtech.jts.util.Assert;
 import org.locationtech.jts.util.AssertionFailedException;
 
@@ -612,7 +611,7 @@ S   */
 
     EnumSet<Ordinate> result = EnumSet.of(Ordinate.X, Ordinate.Y);
 
-    String nextWord = lookAheadWord(tokenizer).toUpperCase();
+    String nextWord = lookAheadWord(tokenizer).toUpperCase(Locale.ROOT);
     if (nextWord.equalsIgnoreCase("Z")) {
       tokenizer.nextToken();
       result.add(Ordinate.Z);
@@ -767,7 +766,7 @@ S   */
 
     EnumSet<Ordinate> ordinateFlags = EnumSet.of(Ordinate.X, Ordinate.Y);
     try {
-      type = getNextWord(tokenizer).toUpperCase();
+      type = getNextWord(tokenizer).toUpperCase(Locale.ROOT);
       if (type.endsWith("ZM")) {
         ordinateFlags.add(Ordinate.Z);
         ordinateFlags.add(Ordinate.M);

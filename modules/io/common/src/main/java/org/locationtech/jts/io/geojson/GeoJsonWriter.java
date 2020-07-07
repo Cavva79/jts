@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -41,6 +41,9 @@ import org.locationtech.jts.util.Assert;
  */
 public class GeoJsonWriter {
   
+  /**
+   * The prefix for EPSG codes in the <code>crs</code> property.
+   */
   public static final String EPSG_PREFIX = "EPSG:";
   
   private double scale;
@@ -56,11 +59,20 @@ public class GeoJsonWriter {
   /**
    * Constructs a GeoJsonWriter instance specifying the number of decimals to
    * use when encoding floating point numbers.
+   * 
+   * @param decimals the number of decimal places to output
    */
   public GeoJsonWriter(int decimals) {
     this.scale = Math.pow(10, decimals);
   }
 
+  /**
+   * Sets whether the GeoJSON <code>crs</code> property should 
+   * be output.
+   * The value of the property is taken from geometry SRID.
+   * 
+   * @param isEncodeCRS true if the crs property should be output
+   */
   public void setEncodeCRS(boolean isEncodeCRS) {
     this.isEncodeCRS  = isEncodeCRS;
   }
@@ -68,7 +80,7 @@ public class GeoJsonWriter {
   /**
    * Writes a {@link Geometry} in GeoJson format to a String.
    * 
-   * @param geometry
+   * @param geometry the geometry to write
    * @return String GeoJson Encoded Geometry
    */
   public String write(Geometry geometry) {

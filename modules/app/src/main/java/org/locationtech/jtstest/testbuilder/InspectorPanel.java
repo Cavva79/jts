@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -88,7 +88,7 @@ public class InspectorPanel extends TestBuilderPanel  {
     });
     btnNext.setEnabled(true);
     btnNext.setMaximumSize(new Dimension(30, 30));
-    //btnNext.setText("Next");
+    btnNext.setToolTipText("Zoom to Next");
     btnNext.setIcon(downIcon);
     btnNext.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -97,7 +97,7 @@ public class InspectorPanel extends TestBuilderPanel  {
     });
     btnPrev.setEnabled(true);
     btnPrev.setMaximumSize(new Dimension(30, 30));
-    //btnPrev.setText("Prev");
+    btnPrev.setToolTipText("Zoom to Previous");
     btnPrev.setIcon(upIcon);
     btnPrev.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -111,6 +111,8 @@ public class InspectorPanel extends TestBuilderPanel  {
     lblGeom.setHorizontalAlignment(JLabel.CENTER);
 
     JPanel btnPanel = new JPanel();
+    btnPanel.setPreferredSize(new java.awt.Dimension(30, 30));
+
     btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.PAGE_AXIS));
     btnPanel.add(lblGeom);
     btnPanel.add(Box.createRigidArea(new Dimension(0, BOX_SPACER)));
@@ -135,6 +137,7 @@ public class InspectorPanel extends TestBuilderPanel  {
       });
       JPanel btn2Panel = new JPanel();
       btn2Panel.setLayout(new BoxLayout(btn2Panel, BoxLayout.PAGE_AXIS));
+      btn2Panel.setPreferredSize(new java.awt.Dimension(30, 30));
       btn2Panel.add(btnExpand);
       this.add(btn2Panel, BorderLayout.EAST);
     }

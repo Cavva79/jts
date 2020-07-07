@@ -2,9 +2,9 @@
  * Copyright (c) 2018 Vivid Solutions
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -105,15 +105,19 @@ public interface CoordinateSequence
   default boolean hasZ() {
       return (getDimension()-getMeasures()) > 2;
   }
-  
+
   /**
-   * Checks {@link #getMeasures()} to determine if {@link #getM(int)}
-   * is supported.
-   * 
+   * Tests whether the coordinates in the sequence have measures associated with them. Returns true
+   * if {@link #getMeasures()} > 0. See {@link #getMeasures()} to determine the number of measures
+   * present.
+   *
    * @return true if {@link #getM(int)} is supported.
+   *
+   * @see #getMeasures()
+   * @see #getM(int)
    */
   default boolean hasM() {
-      return getDimension()>2 && getMeasures() > 0;
+      return getMeasures() > 0;
   }
 
   /**

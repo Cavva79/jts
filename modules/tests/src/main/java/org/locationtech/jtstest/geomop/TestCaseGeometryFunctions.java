@@ -2,19 +2,23 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 package org.locationtech.jtstest.geomop;
 
-import org.locationtech.jts.densify.*;
+import java.util.Collection;
+
+import org.locationtech.jts.densify.Densifier;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.util.LinearComponentExtracter;
 import org.locationtech.jts.operation.buffer.BufferOp;
 import org.locationtech.jts.operation.buffer.BufferParameters;
+import org.locationtech.jts.operation.polygonize.Polygonizer;
 import org.locationtech.jts.precision.MinimumClearance;
 
 /**
@@ -57,4 +61,19 @@ public class TestCaseGeometryFunctions
     return MinimumClearance.getLine(g);
   }
 
+  private static Geometry polygonize(Geometry g, boolean extractOnlyPolygonal) {
+    Collection lines = LinearComponentExtracter.getLines(g);
+    Polygonizer polygonizer = new Polygonizer(extractOnlyPolygonal);
+    polygonizer.add(lines);
+    return polygonizer.getGeometry();
+  }
+  
+  public static Geometry polygonize(Geometry g) {
+    return polygonize(g, false);
+  }
+  
+  public static Geometry polygonizeValidPolygonal(Geometry g) {
+    return polygonize(g, true);
+  }
 }
+;

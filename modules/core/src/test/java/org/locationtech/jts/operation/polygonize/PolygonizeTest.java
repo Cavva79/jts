@@ -3,9 +3,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -100,7 +100,7 @@ public class PolygonizeTest extends GeometryTestCase {
     });
   }
 
-  public void testPolygona_OuterOnly_2() {
+  public void testPolygonal_OuterOnly_2() {
     checkPolygonize(true, new String[] {
         "LINESTRING (100 400, 200 400, 200 300)" 
             ,"LINESTRING (200 300, 150 300)"
@@ -139,7 +139,7 @@ public class PolygonizeTest extends GeometryTestCase {
       "LINESTRING (40 30, 40 20)"
   };
       
-  public void testPolygona_OuterOnly_Checkerboard() {
+  public void testPolygonal_OuterOnly_Checkerboard() {
     checkPolygonize(true, LINES_CHECKERBOARD,
     new String[]{
         "POLYGON ((10 20, 20 20, 20 10, 10 10, 10 20))"

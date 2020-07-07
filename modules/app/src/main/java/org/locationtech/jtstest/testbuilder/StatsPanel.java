@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -12,8 +12,8 @@
 package org.locationtech.jtstest.testbuilder;
 
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -21,9 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jtstest.testbuilder.geom.*;
-import org.locationtech.jtstest.testbuilder.model.*;
+import org.locationtech.jtstest.testbuilder.geom.GeometryUtil;
+import org.locationtech.jtstest.testbuilder.model.TestBuilderModel;
 
 
 /**
@@ -52,7 +51,7 @@ extends JPanel
 
     txtStats.setWrapStyleWord(true);
     txtStats.setLineWrap(true);
-    txtStats.setBackground(SystemColor.control);
+    txtStats.setBackground(AppColors.BACKGROUND);
 
     this.add(jScrollPane1, BorderLayout.CENTER);
     
@@ -83,7 +82,7 @@ extends JPanel
     buf.append(label + " : ");
     buf.append(GeometryUtil.structureSummary(g));
     buf.append("\n");
-    buf.append("    Length = " + g.getLength() + "    Area = " + g.getArea() + "\n");
+    buf.append("    " + GeometryUtil.metricsSummary(g));
     buf.append("\n");
   }
   

@@ -38,14 +38,14 @@ JTS snapshot artifacts are published to the LocationTech Maven repository. To in
 <repositories>
   <repository>
     <id>locationtech-releases</id>
-    <url>https://repo.locationtech.org/content/groups/releases</url>
+    <url>https://repo.eclipse.org/content/groups/releases</url>
     <snapshots>
       <enabled>false</enabled>
     </snapshots>
   </repository>
   <repository>
     <id>jts-snapshots</id>
-    <url>https://repo.locationtech.org/content/repositories/jts-snapshots</url>
+    <url>https://repo.eclipse.org/content/repositories/jts-snapshots</url>
     <releases>
       <enabled>false</enabled>
     </releases>
@@ -97,3 +97,8 @@ module org.foo.baz {
   requires org.locationtech.jts.io.sde;     // jts-io-sde
 }
 ```
+
+## JTS Tools
+
+JTS includes various application tools, which are documented [here](doc/TOOLS.md).
+
